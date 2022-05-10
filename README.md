@@ -82,6 +82,8 @@ Available locators in selenium (find_element(By.locator, 'value')):
 ## 2. WebDriver class 
 simulates browser action 
 
+## API - 
+
 ## 3. WebElement class
 simulates element actions 
 - Working with forms, textboxes, checkboxes, and radio buttons
@@ -96,6 +98,6 @@ mouse movement, Executing JavaScript
 way of engineering your project, put your code in structured way: 
 
 - Page Objects Modeling (design pattern) 
-    using classes, objects, inheritence, encapsulation
+    using classes, objects, inheritance, encapsulation
 - Pytest - unit testing framework 
     - to generate Pass/Fail status, generate reports 
