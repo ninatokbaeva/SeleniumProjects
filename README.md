@@ -81,16 +81,48 @@ Available locators in selenium (find_element(By.locator, 'value')):
 
 ## 2. WebDriver class 
 simulates browser action 
+- properties: 	current_url, current_window_handle, window_handles, name,
+				title, 
+- methods: 		find_element(), send_keys(), switch_to.window(), back(), 	
+				refresh() ....
 
-## API - 
+## API - application programming interface
+SOAP - xml, older api type
+REST API - json, xml (http messages and responses)
+
+add.resources('/query')
+def query(function, symbol, apikey):
+	# verify apikey
+	# find global quote for symbol
+
+```commandline
+https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=OZ8SJC8A5DGNC
+
+https://dog.ceo/api/breed/hound/english/images/random
+
+```
+
+Method: GET, POST, PUT, DELETE
+response code: 200, 201, 300, 401, 404, 500
+
 
 ## 3. WebElement class
 simulates element actions 
+Done topics: 
+- Working with find_elements() - returns list of elements
+- Webelement properties (text, size, tag_name) 
+- Webelement methods: clear(), click(), send_keys(), is_displayed(), is_enabled(), get_attribute()
+- Working with alerts and pop-up windows (from previous session, from webdriver class)
+
+  TODO: 
 - Working with forms, textboxes, checkboxes, and radio buttons
 - Working with dropdowns and lists
-- Working with alerts and pop-up windows
 
 ## 4. Synchronizing Tests
+Difference between implicit and explicit waits
+What is explicit wait?
+How to build explicit wait with different conditions?
+
 ## 5. Advanced Techniques of Selenium WebDriver
 mouse movement, Executing JavaScript
 	
@@ -98,6 +130,19 @@ mouse movement, Executing JavaScript
 way of engineering your project, put your code in structured way: 
 
 - Page Objects Modeling (design pattern) 
-    using classes, objects, inheritance, encapsulation
+    using classes, objects, inheritence, encapsulation
 - Pytest - unit testing framework 
     - to generate Pass/Fail status, generate reports 
+
+
+
+
+
+
+
+
+
+
+
+
+
