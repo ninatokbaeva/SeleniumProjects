@@ -1,13 +1,24 @@
 #   Chapter 4: Webelement properties and methods
 
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-def initialize_driver():
+
+def initialize_chrome():
     driver = webdriver.Chrome()
+    driver.maximize_window()
+    driver.implicitly_wait(10)  # max wait time for all find element steps
+    return driver
+
+
+def initialize_firefox():
+    driver = webdriver.Firefox()
     driver.maximize_window()
     driver.implicitly_wait(20)  # max wait time for all find element steps
     return driver
@@ -93,3 +104,95 @@ def working_with_alerts(driver):
     alrt.send_keys("john doe")  # clicking the Cancel button
     alrt.accept()
     time.sleep(2)
+
+
+def test_explicit_wait(driver):
+    # driver = webdriver.Chrome()
+    # driver.maximize_window()
+    # driver.implicitly_wait(20)  # max wait time for all find element steps
+
+    # time object from WebDriverWait()
+    # you need list of conditions from expected_conditions() class
+
+    url = "https://chercher.tech/practice/explicit-wait-sample-selenium-webdriver"
+    wdwait = WebDriverWait(driver, 30)  # step 1
+
+    print("########   test explicit wait started ##############")
+    print("########   text_to_be_present_in_element ##############")
+    print("# open the website")
+    driver.get(url)
+
+    print("# get the initial text")
+    # option 1
+    # original_msg = driver.find_element(By.ID, 'h2').text
+    # option 2
+    original_msg = wdwait.until(EC.presence_of_element_located((By.ID, 'h2'))).text
+    print(f"Original message displayed: {original_msg}")
+
+    print('# click on "Change Text to Selenium Webdriver" button')
+    driver.find_element(By.ID, 'populate-text').click()
+
+    print("# wait until text is present in the element 'Selenium', max wait time is 20")
+    wdwait.until(EC.text_to_be_present_in_element((By.ID, "h2"), "Selenium"))  # step2
+    target_msg = driver.find_element(By.ID, 'h2').text
+
+    print(f"Target text : {target_msg}")
+    print("######## text_to_be_present_in_element completed ########### ")
+
+    print("########## element_to_be_clickable started ############")
+    driver.find_element(By.ID, 'disable').click()
+
+    print("check if button is enabled if not click on 'Enable button after 10 seconds'")
+    print(f"checking the button : {driver.find_element(By.ID, 'disable').is_enabled()}")
+
+    if not driver.find_element(By.ID, 'disable').is_enabled():
+        driver.find_element(By.ID, 'enable-button').click()
+
+    print("wait until 'Button' button is enabled, then click the button")
+    wdwait.until(EC.element_to_be_clickable((By.ID, 'disable')))
+    driver.find_element(By.ID, 'disable').click()
+    print("######## element_to_be_clickable completed ########### ")
+
+
+def test_drag_and_drop(driver):
+    # driver = webdriver.Chrome()
+    # driver.maximize_window()
+    # driver.implicitly_wait(20)  # max wait time for all find element steps
+
+    print("############# test_drag_and_drop started ###########")
+    url = 'https://jqueryui.com/droppable/'
+    wdwait = WebDriverWait(driver, 10)
+
+    print("# open the website")
+    driver.get(url)
+    # time.sleep(2)
+    wdwait.until(EC.presence_of_element_located((By.ID, 'content')))
+
+    print("# find draggable element")
+    driver.switch_to.frame(0)  # option 1
+    # driver.switch_to.frame(driver.find_element(By.XPATH, "//iframe[@class='demo-frame']")) # option 2
+    element1 = driver.find_element(By.ID, 'draggable')
+
+    print("# find droppable box where we need to drop first element")
+    # element2 = driver.find_element(value='droppable')  # option 1
+    element2 = wdwait.until(EC.presence_of_element_located((By.ID, 'droppable')))  # option 2
+
+    print("# check the text before the action")
+    print(f"Text in target element: '{element2.text}'")
+
+    print("# perform drag and drop action on above elements")
+    actions = ActionChains(driver)
+    # option 1
+    # actions.drag_and_drop(element1, element2).perform()
+    # option 2
+    actions.click_and_hold(element1).perform()
+    actions.release(element2).perform()
+
+    print("# check the text after the action")
+    print(f"Text in target element: '{element2.text}'")
+    assert 'Dropped' in element2.text, "Drag and drop action failed."
+    print("######## test_drag_and_drop completed ################")
+
+
+def test_hover_over_action(driver):
+    pass
